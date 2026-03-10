@@ -1,0 +1,14 @@
+# Файлы Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Конфиденциальные файлы
+k8s/secret.yaml
+
+# Виртуальное окружение
+venv/
+.env
+ 
+ 
