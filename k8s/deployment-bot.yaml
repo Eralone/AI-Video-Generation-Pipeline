@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vkbot
+  namespace: vkbot
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vkbot
+  template:
+    metadata:
+      labels:
+        app: vkbot
+    spec:
+      containers:
+        - name: vkbot
+          image: your-registry/vkbot:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: vkbot-config
+            - secretRef:
+                name: vkbot-secret
+          volumeMounts:
+            - name: data-storage
+              mountPath: /data
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+      volumes:
+        - name: data-storage
+          persistentVolumeClaim:
+            claimName: vkbot-pvc
+

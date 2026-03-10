@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-worker
+  namespace: vkbot
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: celery-worker
+  template:
+    metadata:
+      labels:
+        app: celery-worker
+    spec:
+      containers:
+        - name: worker
+          image: your-registry/vkbot:latest
+          command: ["celery", "-A", "vk_video_bot.app.tasks.generate_video.celery_app", "worker", "--loglevel=info", "-c", "2"]
+          envFrom:
+            - configMapRef:
+                name: vkbot-config
+            - secretRef:
+                name: vkbot-secret
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "2Gi"
+

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vkbot-config
+  namespace: vkbot
+data:
+  AI_PROVIDER: "openai"
+  AUDIO_STORAGE_PATH: "/data/audio"
+  VIDEO_STORAGE_PATH: "/data/video"
+  CELERY_BROKER_URL: "redis://redis-svc:6379/1"
+  CELERY_RESULT_BACKEND: "redis://redis-svc:6379/2"
+  DATABASE_URL: "postgresql+asyncpg://user:pass@postgres-svc:5432/vkbot"
+
